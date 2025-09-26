@@ -1,6 +1,4 @@
-﻿using UserMgmt.API.Core.Entities;
-
-namespace UserMgmt.API.Core.Interfaces;
+﻿namespace UserMgmt.API.Core.Interfaces;
 
 public interface IUserRepository
 {

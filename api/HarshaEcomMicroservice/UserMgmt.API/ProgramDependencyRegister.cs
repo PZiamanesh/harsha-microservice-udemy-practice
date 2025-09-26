@@ -1,11 +1,4 @@
-﻿using System.Reflection;
-using UserMgmt.API.Core.Interfaces;
-using UserMgmt.API.Infrastructure.BehaviourPipeline;
-using UserMgmt.API.Infrastructure.DataAccess;
-using UserMgmt.API.Infrastructure.Repositories;
-using FluentValidation;
-
-namespace UserMgmt.API;
+﻿namespace UserMgmt.API;
 
 public static class ProgramDependencyRegister
 {

@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using UserMgmt.API.Core.Entities;
-
-namespace UserMgmt.API.Core.Dto;
+﻿namespace UserMgmt.API.Core.DTOs;
 
 public record AuthenticationResponse
 {

@@ -1,10 +1,4 @@
-﻿using AutoMapper;
-using ErrorOr;
-using MediatR;
-using UserMgmt.API.Core.Dto;
-using UserMgmt.API.Core.Interfaces;
-
-namespace UserMgmt.API.Core.Features;
+﻿namespace UserMgmt.API.Core.Features;
 
 public class LoginUserHandler : IRequestHandler<LoginRequest, ErrorOr<AuthenticationResponse>>
 {

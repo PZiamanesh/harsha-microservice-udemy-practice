@@ -1,8 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using UserMgmt.API.Core.Dto;
-
-namespace UserMgmt.API.Controllers;
+﻿namespace UserMgmt.API.Controllers;
 
 [Route("api/auth")]
 public class AuthenticationController : ApiController

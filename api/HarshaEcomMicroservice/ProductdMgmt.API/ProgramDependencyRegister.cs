@@ -1,6 +1,4 @@
-﻿using ProductdMgmt.API.Infrastructure.Repositories;
-
-namespace ProductdMgmt.API;
+﻿namespace ProductdMgmt.API;
 
 public static class ProgramDependencyRegister
 {
@@ -24,7 +22,6 @@ public static class ProgramDependencyRegister
         this IServiceCollection services,
         IConfiguration configuration)
     {
-
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<MySqlDbContext>());
 
@@ -43,7 +40,11 @@ public static class ProgramDependencyRegister
 
         services.AddDbContext<MySqlDbContext>(ops =>
         {
-            ops.UseMySQL(configuration.GetConnectionString("ProductMgmtConnection")!);
+            string connString = configuration.GetConnectionString("ProductMgmtConnection")!;
+            connString = connString.Replace("$HOST_NAME", Environment.GetEnvironmentVariable("HOST_NAME"))
+                      .Replace("$MYSQL_PASSWORD", Environment.GetEnvironmentVariable("MYSQL_PASSWORD"));
+
+            ops.UseMySQL(connString);
         });
 
         return services;

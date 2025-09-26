@@ -1,12 +1,4 @@
-﻿using AutoMapper;
-using ErrorOr;
-using MediatR;
-using Microsoft.AspNetCore.Identity.Data;
-using UserMgmt.API.Core.Dto;
-using UserMgmt.API.Core.Entities;
-using UserMgmt.API.Core.Interfaces;
-
-namespace UserMgmt.API.Core.Features;
+﻿namespace UserMgmt.API.Core.Features;
 
 public class RegisterUserHandler : IRequestHandler<RegisterUserRequest, ErrorOr<AuthenticationResponse>>
 {

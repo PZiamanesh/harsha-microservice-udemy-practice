@@ -1,9 +1,3 @@
-using Microsoft.AspNetCore.Http.Json;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using UserMgmt.API;
-using UserMgmt.API.Infrastructure.Middlewares;
-
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 

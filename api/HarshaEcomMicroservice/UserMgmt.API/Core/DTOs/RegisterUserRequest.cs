@@ -1,9 +1,4 @@
-﻿using ErrorOr;
-using FluentValidation;
-using MediatR;
-using UserMgmt.API.Core.Entities;
-
-namespace UserMgmt.API.Core.Dto;
+﻿namespace UserMgmt.API.Core.DTOs;
 
 public record RegisterUserRequest : IRequest<ErrorOr<AuthenticationResponse>>
 {

@@ -1,7 +1,4 @@
 ﻿using Dapper;
-using UserMgmt.API.Core.Entities;
-using UserMgmt.API.Core.Interfaces;
-using UserMgmt.API.Infrastructure.DataAccess;
 
 namespace UserMgmt.API.Infrastructure.Repositories;
 

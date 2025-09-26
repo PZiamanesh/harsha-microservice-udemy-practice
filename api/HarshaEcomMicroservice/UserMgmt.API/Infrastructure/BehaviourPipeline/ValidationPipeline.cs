@@ -1,9 +1,4 @@
-﻿using ErrorOr;
-using FluentValidation;
-using MediatR;
-using Microsoft.AspNetCore.Identity.Data;
-
-namespace UserMgmt.API.Infrastructure.BehaviourPipeline;
+﻿namespace UserMgmt.API.Infrastructure.BehaviourPipeline;
 
 public class ValidationPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>

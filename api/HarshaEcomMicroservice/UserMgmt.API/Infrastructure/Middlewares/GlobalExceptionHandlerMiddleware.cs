@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
-
-namespace UserMgmt.API.Infrastructure.Middlewares;
+﻿namespace UserMgmt.API.Infrastructure.Middlewares;
 
 public class GlobalExceptionHandlerMiddleware
 {

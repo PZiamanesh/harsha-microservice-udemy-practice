@@ -1,8 +1,4 @@
-﻿using ErrorOr;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-
-namespace UserMgmt.API.Controllers;
+﻿namespace UserMgmt.API.Controllers;
 
 [ApiController]
 public class ApiController : ControllerBase

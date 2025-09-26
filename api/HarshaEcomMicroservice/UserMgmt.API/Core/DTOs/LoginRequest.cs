@@ -1,9 +1,4 @@
-﻿using AutoMapper;
-using ErrorOr;
-using FluentValidation;
-using MediatR;
-
-namespace UserMgmt.API.Core.Dto;
+﻿namespace UserMgmt.API.Core.DTOs;
 
 public record LoginRequest : IRequest<ErrorOr<AuthenticationResponse>>
 {
