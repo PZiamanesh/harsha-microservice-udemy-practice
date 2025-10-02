@@ -1,4 +1,4 @@
-﻿namespace ProductdMgmt.API.Infrastructure.Middlewares;
+﻿namespace ProductMgmt.API.Infrastructure.Middlewares;
 
 public class GlobalExceptionHandlerMiddleware
 {

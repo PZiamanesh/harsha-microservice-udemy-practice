@@ -1,14 +1,10 @@
-﻿namespace ProductdMgmt.API.Core.Interfaces;
+﻿namespace ProductMgmt.API.Core.Interfaces;
 
 public interface IProductRepository
 {
     Task<Product?> GetProductByIdAsync(Guid Id);
 
-    Task<Product?> GetProductByAsync(Expression<Func<Product,bool>> predicate);
-
-    Task<IEnumerable<Product>> GetProductsAsync();
-
-    Task<IEnumerable<Product>> GetProductsByAsync(Expression<Func<Product, bool>> predicate);
+    Task<IEnumerable<Product>> GetProductsAsync(GetProductsFilterRequest request);
 
     void AddProduct(Product product);
 

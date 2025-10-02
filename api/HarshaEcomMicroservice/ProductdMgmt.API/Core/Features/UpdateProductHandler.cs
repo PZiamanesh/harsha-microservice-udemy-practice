@@ -1,5 +1,4 @@
-﻿
-namespace ProductdMgmt.API.Core.Features;
+﻿namespace ProductMgmt.API.Core.Features;
 
 public class UpdateProductHandler : IRequestHandler<UpdateProductRequest, ErrorOr<Updated>>
 {

@@ -1,6 +1,4 @@
-﻿using ProductdMgmt.API.Infrastructure.DataAccess;
-
-namespace ProductdMgmt.API.Infrastructure.Repositories;
+﻿namespace ProductMgmt.API.Infrastructure.Repositories;
 
 public class ProductRepository : IProductRepository
 {
@@ -8,7 +6,7 @@ public class ProductRepository : IProductRepository
 
     public ProductRepository(MySqlDbContext dbContext)
     {
-        this._dbContext = dbContext;
+        _dbContext = dbContext;
     }
 
     public async Task<Product?> GetProductByIdAsync(Guid Id)
@@ -16,19 +14,20 @@ public class ProductRepository : IProductRepository
         return await _dbContext.Products.SingleOrDefaultAsync(p => p.ProductID == Id);
     }
 
-    public async Task<Product?> GetProductByAsync(Expression<Func<Product, bool>> predicate)
+    public async Task<IEnumerable<Product>> GetProductsAsync(GetProductsFilterRequest request)
     {
-        return await _dbContext.Products.FirstOrDefaultAsync(predicate);
-    }
+        var query = _dbContext.Products.AsNoTracking().AsQueryable();
 
-    public async Task<IEnumerable<Product>> GetProductsAsync()
-    {
-        return await _dbContext.Products.ToListAsync();
-    }
+        if (request.Category != null)
+        {
+            query = query.Where(p => p.Category == request.Category);
+        }
+        if (!string.IsNullOrEmpty(request.ProductName))
+        {
+            query = query.Where(p => p.ProductName!.Contains(request.ProductName));
+        }
 
-    public async Task<IEnumerable<Product>> GetProductsByAsync(Expression<Func<Product, bool>> predicate)
-    {
-        return await _dbContext.Products.Where(predicate).ToListAsync();
+        return await query.ToListAsync();
     }
 
     public void AddProduct(Product product)

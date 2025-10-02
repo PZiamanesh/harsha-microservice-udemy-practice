@@ -1,4 +1,4 @@
-﻿namespace ProductdMgmt.API.Infrastructure.BehaviourPipeline;
+﻿namespace ProductMgmt.API.Infrastructure.BehaviourPipeline;
 
 public class ValidationPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>

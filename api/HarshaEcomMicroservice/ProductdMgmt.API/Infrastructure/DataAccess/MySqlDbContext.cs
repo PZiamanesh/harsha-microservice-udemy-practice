@@ -1,4 +1,4 @@
-﻿namespace ProductdMgmt.API.Infrastructure.DataAccess;
+﻿namespace ProductMgmt.API.Infrastructure.DataAccess;
 
 public class MySqlDbContext : DbContext, IUnitOfWork
 {

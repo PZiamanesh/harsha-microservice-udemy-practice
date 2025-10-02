@@ -1,4 +1,4 @@
-﻿namespace ProductdMgmt.API.Core.DTOs;
+﻿namespace ProductMgmt.API.Core.DTOs;
 
 public enum CategoryOptions
 {

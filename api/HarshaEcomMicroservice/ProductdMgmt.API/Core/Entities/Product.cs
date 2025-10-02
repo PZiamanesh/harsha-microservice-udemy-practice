@@ -1,4 +1,4 @@
-﻿namespace ProductdMgmt.API.Core.Entities;
+﻿namespace ProductMgmt.API.Core.Entities;
 
 public class Product
 {

@@ -1,6 +1,4 @@
-﻿using Dapper;
-
-namespace UserMgmt.API.Infrastructure.Repositories;
+﻿namespace UserMgmt.API.Infrastructure.Repositories;
 
 public class UserRepository : IUserRepository
 {

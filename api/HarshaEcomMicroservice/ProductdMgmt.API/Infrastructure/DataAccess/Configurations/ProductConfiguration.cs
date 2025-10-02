@@ -1,4 +1,4 @@
-﻿namespace ProductdMgmt.API.Infrastructure.DataAccess.Configurations;
+﻿namespace ProductMgmt.API.Infrastructure.DataAccess.Configurations;
 
 public class ProductConfiguration : IEntityTypeConfiguration<Product>
 {

@@ -13,7 +13,9 @@
       "commandName": "Project",
       "launchBrowser": false,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "HOST_NAME": "localhost",
+        "MYSQL_PASSWORD": "admin"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:49162;http://localhost:49156"

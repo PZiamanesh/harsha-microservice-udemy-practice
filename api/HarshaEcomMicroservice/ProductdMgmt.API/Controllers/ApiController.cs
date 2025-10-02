@@ -1,4 +1,4 @@
-﻿namespace ProductdMgmt.API.Controllers;
+﻿namespace ProductMgmt.API.Controllers;
 
 [ApiController]
 public class ApiController : ControllerBase

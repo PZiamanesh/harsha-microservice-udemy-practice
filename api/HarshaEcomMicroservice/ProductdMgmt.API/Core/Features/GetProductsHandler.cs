@@ -1,6 +1,6 @@
-﻿namespace ProductdMgmt.API.Core.Features;
+﻿namespace ProductMgmt.API.Core.Features;
 
-public class GetProductsHandler : IRequestHandler<GetProductsRequest, ErrorOr<List<ProductResponse>>>
+public class GetProductsHandler : IRequestHandler<GetProductsFilterRequest, ErrorOr<List<ProductResponse>>>
 {
     private readonly IProductRepository _productRepository;
     private readonly IUnitOfWork _uow;
@@ -11,16 +11,16 @@ public class GetProductsHandler : IRequestHandler<GetProductsRequest, ErrorOr<Li
         IUnitOfWork uow,
         IMapper mapper)
     {
-        this._productRepository = productRepository;
-        this._uow = uow;
-        this._mapper = mapper;
+        _productRepository = productRepository;
+        _uow = uow;
+        _mapper = mapper;
     }
 
     public async Task<ErrorOr<List<ProductResponse>>> Handle(
-        GetProductsRequest request,
+        GetProductsFilterRequest request,
         CancellationToken cancellationToken)
     {
-        var products = await _productRepository.GetProductsAsync();
+        var products = await _productRepository.GetProductsAsync(request);
         return _mapper.Map<List<ProductResponse>>(products);
     }
 }

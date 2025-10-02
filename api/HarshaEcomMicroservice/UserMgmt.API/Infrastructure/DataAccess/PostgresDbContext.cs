@@ -1,7 +1,4 @@
-﻿using Npgsql;
-using System.Data;
-
-namespace UserMgmt.API.Infrastructure.DataAccess;
+﻿namespace UserMgmt.API.Infrastructure.DataAccess;
 
 public class PostgresDbContext
 {

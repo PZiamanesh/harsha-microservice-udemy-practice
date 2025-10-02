@@ -1,8 +1,8 @@
 ﻿namespace UserMgmt.API;
 
-public static class ProgramDependencyRegister
+public static class ProgramDependencyInjection
 {
-    private static Assembly _assembly = typeof(ProgramDependencyRegister).Assembly;
+    private static Assembly _assembly = typeof(ProgramDependencyInjection).Assembly;
 
     public static IServiceCollection AddCoreLayerServices(
         this IServiceCollection services,

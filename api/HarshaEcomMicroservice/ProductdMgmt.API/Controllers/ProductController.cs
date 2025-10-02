@@ -1,4 +1,4 @@
-﻿namespace ProductdMgmt.API.Controllers;
+﻿namespace ProductMgmt.API.Controllers;
 
 [Route("api/products")]
 public class ProductController : ApiController
@@ -7,13 +7,13 @@ public class ProductController : ApiController
 
     public ProductController(IMediator mediator)
     {
-        this._mediator = mediator;
+        _mediator = mediator;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetProducts()
+    public async Task<IActionResult> GetProducts([FromQuery] GetProductsFilterRequest request)
     {
-        var result = await _mediator.Send(new GetProductsRequest());
+        var result = await _mediator.Send(request);
 
         return Ok(result.Value);
     }

@@ -14,5 +14,8 @@ global using MediatR;
 global using System.Linq.Expressions;
 global using System.Text.Json;
 global using System.Text.Json.Serialization;
+global using System.Data;
 global using FluentValidation;
 global using System.Reflection;
+global using Npgsql;
+global using Dapper;

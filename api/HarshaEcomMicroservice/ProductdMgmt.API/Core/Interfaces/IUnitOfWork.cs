@@ -1,4 +1,4 @@
-﻿namespace ProductdMgmt.API.Core.Interfaces;
+﻿namespace ProductMgmt.API.Core.Interfaces;
 
 public interface IUnitOfWork
 {
