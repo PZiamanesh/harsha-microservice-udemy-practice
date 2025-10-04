@@ -2,12 +2,12 @@
 
 public record OrderItemResponse
 {
-    public required Guid ProductID { get; set; }
-    public required decimal UnitPrice { get; set; }
-    public required int Quantity { get; set; }
-    public required decimal TotalPrice { get; set; }
-    public required string ProductName { get; set; }
-    public required ProductCategory Category { get; set; }
+    public Guid ProductID { get; set; }
+    public decimal UnitPrice { get; set; }
+    public int Quantity { get; set; }
+    public decimal TotalPrice { get; set; }
+    public string ProductName { get; set; }
+    public ProductCategory Category { get; set; }
 }
 
 

@@ -2,11 +2,11 @@
 
 public record AuthenticationResponse
 {
-    public required string UserID { get; set; }
-    public required string Email { get; set; }
-    public required string PersonName { get; set; }
+    public string UserID { get; set; }
+    public string Email { get; set; }
+    public string PersonName { get; set; }
     public Gender Gender { get; set; }
-    public required string Token { get; set; }
+    public string Token { get; set; }
     public bool Success { get; set; }
 }
 

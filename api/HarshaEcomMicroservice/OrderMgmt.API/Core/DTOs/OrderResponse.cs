@@ -2,12 +2,12 @@
 
 public record OrderResponse
 {
-    public required Guid OrderID { get; set; }
-    public required Guid UserID { get; set; }
-    public required DateTime OrderDate { get; set; }
-    public required decimal TotalBill { get; set; }
-    public required string UserPersonName { get; set; }
-    public required string Email { get; set; }
+    public Guid OrderID { get; set; }
+    public Guid UserID { get; set; }
+    public DateTime OrderDate { get; set; }
+    public decimal TotalBill { get; set; }
+    public string UserPersonName { get; set; }
+    public string Email { get; set; }
     public List<OrderItemResponse> OrderItems { get; set; } = [];
 }
 

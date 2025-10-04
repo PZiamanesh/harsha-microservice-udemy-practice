@@ -3,9 +3,9 @@
 public record ProductResponse
 {
     public Guid ProductID { get; set; }
-    public string? ProductName { get; set; }
+    public string ProductName { get; set; }
     public ProductCategory Category { get; set; }
-    public double UnitPrice { get; set; }
+    public decimal UnitPrice { get; set; }
     public int QuantityInStock { get; set; }
 }
 
@@ -14,7 +14,6 @@ public class ProductResponseMapper : Profile
 {
     public ProductResponseMapper()
     {
-        // Product -> ProductResponse
         CreateMap<Product, ProductResponse>()
             .ForMember(dest => dest.ProductID, opt => opt.MapFrom(src => src.ProductID))
             .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.ProductName))

@@ -2,9 +2,20 @@
 
 public record ProductResponse
 {
-    public required Guid ProductID { get; init; }
-    public required string ProductName { get; init; }
-    public required ProductCategory Category { get; init; }
-    public required decimal UnitPrice { get; init; }
-    public required int QuantityInStock { get; init; }
+    public Guid ProductID { get; init; }
+    public string ProductName { get; init; }
+    public ProductCategory Category { get; init; }
+    public decimal UnitPrice { get; init; }
+    public int QuantityInStock { get; init; }
+}
+
+
+public class ProductResponseToOrderItemResponseMapper : Profile
+{
+    public ProductResponseToOrderItemResponseMapper()
+    {
+        CreateMap<ProductResponse, OrderItemResponse>()
+            .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.ProductName))
+            .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category));
+    }
 }
