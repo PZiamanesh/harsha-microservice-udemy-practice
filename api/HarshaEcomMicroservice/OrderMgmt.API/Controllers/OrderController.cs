@@ -18,4 +18,12 @@ public class OrderController : ApiController
 
         return Ok(response.Value);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> GetOrders([FromQuery] GetOrdersFilter filter)
+    {
+        var response = await _mediator.Send(filter);
+
+        return Ok(response.Value);
+    }
 }
