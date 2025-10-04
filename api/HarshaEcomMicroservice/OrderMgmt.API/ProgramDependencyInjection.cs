@@ -1,4 +1,6 @@
-﻿namespace OrderMgmt.API;
+﻿using OrderMgmt.API.Infrastructure.HttpClientServices;
+
+namespace OrderMgmt.API;
 
 public static class ProgramDependencyInjection
 {
@@ -38,6 +40,37 @@ public static class ProgramDependencyInjection
             ops.AddOpenBehavior(typeof(ValidationPipeline<,>));
         });
 
+        AddMongoDbService(services, configuration);
+
+        return services;
+    }
+
+    public static IServiceCollection AddHttpClientServices(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        services.AddSingleton(new JsonSerializerOptions(JsonSerializerDefaults.Web)
+        {
+            Converters = { new JsonStringEnumConverter() }
+        });
+
+        services.AddHttpClient<ProductClientService>(ops =>
+        {
+            ops.BaseAddress = new Uri($"http://{configuration["ProductMgmt_Host"]}:{configuration["ProductMgmt_Port"]}/api/products/");
+        });
+
+        services.AddHttpClient<UserClientService>(ops =>
+        {
+            ops.BaseAddress = new Uri($"http://{configuration["UserMgmt_Host"]}:{configuration["UserMgmt_Port"]}/api/users/");
+        });
+
+        return services;
+    }
+
+    private static void AddMongoDbService(
+        IServiceCollection services,
+        IConfiguration configuration)
+    {
         string connectionString = configuration.GetConnectionString("MongoDB")!;
 
         connectionString = connectionString
@@ -51,7 +84,5 @@ public static class ProgramDependencyInjection
             IMongoClient client = provider.GetRequiredService<IMongoClient>();
             return client.GetDatabase(Environment.GetEnvironmentVariable("MONGODB_DATABASE"));
         });
-
-        return services;
     }
 }

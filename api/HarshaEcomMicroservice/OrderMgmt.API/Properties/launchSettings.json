@@ -17,10 +17,14 @@
         "MONGODB_HOST": "localhost",
         "MONGODB_PORT": "27017", // local
         //"MONGODB_PORT": "27018", // docker
-        "MONGODB_DATABASE": "HarshaEcomOrderMgmtDB"
+        "MONGODB_DATABASE": "HarshaEcomOrderMgmtDB",
+        "ProductMgmt_Host": "localhost",
+        "ProductMgmt_Port": "49156",
+        "UserMgmt_Host": "localhost",
+        "UserMgmt_Port": "49155"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7187;http://localhost:5293"
+      "applicationUrl": "https://localhost:49163;http://localhost:49157"
     },
     "Container (Dockerfile)": {
       "commandName": "Docker",
