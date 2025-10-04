@@ -28,6 +28,7 @@ public class GlobalExceptionHandlerMiddleware
     }
 }
 
+
 public static class GlobalExceptionHandlerMiddlewareExtensions
 {
     public static IApplicationBuilder UseGlobalExceptionHandlerMiddleware(this IApplicationBuilder builder)

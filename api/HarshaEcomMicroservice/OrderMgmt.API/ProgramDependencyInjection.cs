@@ -22,8 +22,8 @@ public static class ProgramDependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddScoped<IProductRepository, ProductRepository>();
-        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<MySqlDbContext>());
+
+        services.AddScoped<IOrderRepository, OrderRepository>();
 
         return services;
     }
@@ -38,13 +38,18 @@ public static class ProgramDependencyInjection
             ops.AddOpenBehavior(typeof(ValidationPipeline<,>));
         });
 
-        services.AddDbContext<MySqlDbContext>(ops =>
-        {
-            string connString = configuration.GetConnectionString("ProductMgmtConnection")!;
-            connString = connString.Replace("$HOST_NAME", Environment.GetEnvironmentVariable("HOST_NAME"))
-                      .Replace("$MYSQL_PASSWORD", Environment.GetEnvironmentVariable("MYSQL_PASSWORD"));
+        string connectionString = configuration.GetConnectionString("MongoDB")!;
 
-            ops.UseMySQL(connString);
+        connectionString = connectionString
+          .Replace("$MONGO_HOST", Environment.GetEnvironmentVariable("MONGODB_HOST"))
+          .Replace("$MONGO_PORT", Environment.GetEnvironmentVariable("MONGODB_PORT"));
+
+        services.AddSingleton<IMongoClient>(new MongoClient(connectionString));
+
+        services.AddScoped<IMongoDatabase>(provider =>
+        {
+            IMongoClient client = provider.GetRequiredService<IMongoClient>();
+            return client.GetDatabase(Environment.GetEnvironmentVariable("MONGODB_DATABASE"));
         });
 
         return services;

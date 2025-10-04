@@ -3,13 +3,11 @@
 public record RegisterUserRequest : IRequest<ErrorOr<AuthenticationResponse>>
 {
     public string Email { get; set; }
-
     public string Password { get; set; }
-
     public string PersonName { get; set; }
-
     public Gender Gender { get; set; }
 }
+
 
 public class RegisterUserRequestValidator : AbstractValidator<RegisterUserRequest>
 {

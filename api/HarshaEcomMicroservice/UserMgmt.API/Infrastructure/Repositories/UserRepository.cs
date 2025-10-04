@@ -1,4 +1,5 @@
-﻿namespace UserMgmt.API.Infrastructure.Repositories;
+﻿
+namespace UserMgmt.API.Infrastructure.Repositories;
 
 public class UserRepository : IUserRepository
 {
@@ -16,6 +17,19 @@ public class UserRepository : IUserRepository
         VALUES (@UserID, @Email, @Password, @PersonName, @Gender)";
 
         var affected = await _dbContext.Connection.ExecuteAsync(query, user);
+    }
+
+    public async Task<User?> GetUserByIdAsync(Guid Id)
+    {
+        var queryParams = new { UserID = Id };
+
+        const string query = @"
+        select * from public.""Users"" 
+        where ""UserID""=@UserID";
+
+        var user = await _dbContext.Connection.QuerySingleOrDefaultAsync<User>(query, queryParams);
+
+        return user;
     }
 
     public async Task<User?> GetUserByEmailAndPasswordAsync(string email, string password)

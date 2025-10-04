@@ -40,11 +40,16 @@ public static class ProgramDependencyInjection
 
         services.AddDbContext<MySqlDbContext>(ops =>
         {
-            string connString = configuration.GetConnectionString("ProductMgmtConnection")!;
-            connString = connString.Replace("$HOST_NAME", Environment.GetEnvironmentVariable("HOST_NAME"))
-                      .Replace("$MYSQL_PASSWORD", Environment.GetEnvironmentVariable("MYSQL_PASSWORD"));
+            string connectionString = configuration.GetConnectionString("ProdMgmtConnection")!;
 
-            ops.UseMySQL(connString);
+            connectionString = connectionString
+                .Replace("$MYSQL_HOST", Environment.GetEnvironmentVariable("MYSQL_HOST"))
+                .Replace("$MYSQL_PORT", Environment.GetEnvironmentVariable("MYSQL_PORT"))
+                .Replace("$MYSQL_DB", Environment.GetEnvironmentVariable("MYSQL_DB"))
+                .Replace("$MYSQL_USER", Environment.GetEnvironmentVariable("MYSQL_USER"))
+                .Replace("$MYSQL_PASSWD", Environment.GetEnvironmentVariable("MYSQL_PASSWD"));
+
+            ops.UseMySQL(connectionString);
         });
 
         return services;

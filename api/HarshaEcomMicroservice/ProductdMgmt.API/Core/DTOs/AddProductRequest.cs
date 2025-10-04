@@ -3,7 +3,7 @@
 public record AddProductRequest : IRequest<ProductResponse>
 {
     public string? ProductName { get; set; }
-    public CategoryOptions Category { get; set; }
+    public ProductCategory Category { get; set; }
     public double UnitPrice { get; set; }
     public int QuantityInStock { get; set; }
 }

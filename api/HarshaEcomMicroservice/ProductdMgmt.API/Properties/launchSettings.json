@@ -14,8 +14,12 @@
       "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "HOST_NAME": "localhost",
-        "MYSQL_PASSWORD": "admin"
+        "MYSQL_HOST": "localhost",
+        "MYSQL_PORT": "3306", // local
+        //"MYSQL_PORT": "3307", // docker
+        "MYSQL_DB": "HarshaEcomProdMgmtDB",
+        "MYSQL_USER": "root",
+        "MYSQL_PASSWD": "Zia@123456"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:49162;http://localhost:49156"

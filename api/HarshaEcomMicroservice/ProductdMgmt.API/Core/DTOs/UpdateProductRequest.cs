@@ -4,8 +4,8 @@ public record UpdateProductRequest : IRequest<ErrorOr<Updated>>
 {
     public Guid ProductID { get; set; }
     public string ProductName { get; set; }
-    public CategoryOptions Category { get; set; }
-    public double UnitPrice { get; set; }
+    public ProductCategory Category { get; set; }
+    public decimal UnitPrice { get; set; }
     public int QuantityInStock { get; set; }
 }
 

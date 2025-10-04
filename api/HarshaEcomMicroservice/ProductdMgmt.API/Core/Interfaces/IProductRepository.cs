@@ -2,13 +2,9 @@
 
 public interface IProductRepository
 {
-    Task<Product?> GetProductByIdAsync(Guid Id);
-
-    Task<IEnumerable<Product>> GetProductsAsync(GetProductsFilterRequest request);
-
+    Task<Product?> GetProductByIdAsync(Guid id);
+    Task<IEnumerable<Product>> GetProductsAsync(GetProductsFilter filter);
     void AddProduct(Product product);
-
     void UpdateProduct(Product product);
-
     void DeleteProduct(Product product);
 }

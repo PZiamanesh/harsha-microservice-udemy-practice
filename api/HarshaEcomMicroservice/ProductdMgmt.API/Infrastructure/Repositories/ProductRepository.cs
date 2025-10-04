@@ -14,17 +14,17 @@ public class ProductRepository : IProductRepository
         return await _dbContext.Products.SingleOrDefaultAsync(p => p.ProductID == Id);
     }
 
-    public async Task<IEnumerable<Product>> GetProductsAsync(GetProductsFilterRequest request)
+    public async Task<IEnumerable<Product>> GetProductsAsync(GetProductsFilter filter)
     {
         var query = _dbContext.Products.AsNoTracking().AsQueryable();
 
-        if (request.Category != null)
+        if (filter.Category != null)
         {
-            query = query.Where(p => p.Category == request.Category);
+            query = query.Where(p => p.Category == filter.Category);
         }
-        if (!string.IsNullOrEmpty(request.ProductName))
+        if (!string.IsNullOrEmpty(filter.ProductName))
         {
-            query = query.Where(p => p.ProductName!.Contains(request.ProductName));
+            query = query.Where(p => p.ProductName!.Contains(filter.ProductName));
         }
 
         return await query.ToListAsync();

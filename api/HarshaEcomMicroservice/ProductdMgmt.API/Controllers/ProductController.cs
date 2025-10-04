@@ -11,21 +11,35 @@ public class ProductController : ApiController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetProducts([FromQuery] GetProductsFilterRequest request)
+    public async Task<IActionResult> GetProducts([FromQuery] GetProductsFilter filter)
     {
-        var result = await _mediator.Send(request);
+        var response = await _mediator.Send(filter);
 
-        return Ok(result.Value);
+        return Ok(response.Value);
+    }
+
+    [HttpGet("{productId:guid}")]
+    public async Task<IActionResult> GetProductById(Guid productId)
+    {
+        var request = new GetProductByIdRequest { ProductID = productId };
+        var response = await _mediator.Send(request);
+
+        if (response.IsError)
+        {
+            return Problem(response.Errors);
+        }
+
+        return Ok(response.Value);
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateProduct(UpdateProductRequest request)
+    public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductRequest request)
     {
-        var result = await _mediator.Send(request);
+        var response = await _mediator.Send(request);
 
-        if (result.IsError)
+        if (response.IsError)
         {
-            return Problem(result.Errors);
+            return Problem(response.Errors);
         }
 
         return NoContent();

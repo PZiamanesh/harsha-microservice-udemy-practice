@@ -19,7 +19,7 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductRequest, ErrorO
 
         if (product is null)
         {
-            return Error.Conflict(description: "Product not found. Update canceled");
+            return Error.NotFound(description: $"Product with id: {request.ProductID} was not found. Update canceled.");
         }
 
         product.Update(request.ProductName, request.Category, request.UnitPrice, request.QuantityInStock);

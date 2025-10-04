@@ -2,35 +2,32 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProductMgmt.API.Infrastructure.DataAccess;
 
 #nullable disable
 
-namespace ProductdMgmt.API.Infrastructure.DataAccess.Migrations
+namespace ProductMgmt.API.Infrastructure.DataAccess.Migrations
 {
     [DbContext(typeof(MySqlDbContext))]
-    [Migration("20250924065218_InitialCreate")]
-    partial class InitialCreate
+    partial class MySqlDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("ProductdMgmt.API.Core.Entities.Product", b =>
+            modelBuilder.Entity("ProductMgmt.API.Core.Entities.Product", b =>
                 {
                     b.Property<Guid>("ProductID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("Category")
+                    b.Property<int>("Category")
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("int");
 
                     b.Property<string>("ProductName")
                         .HasMaxLength(100)
@@ -39,8 +36,8 @@ namespace ProductdMgmt.API.Infrastructure.DataAccess.Migrations
                     b.Property<int>("QuantityInStock")
                         .HasColumnType("int");
 
-                    b.Property<double>("UnitPrice")
-                        .HasColumnType("double");
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("ProductID");
 

@@ -10,7 +10,7 @@ public class AuthenticationController : ApiController
         this.mediator = mediator;
     }
 
-    [HttpPost("registerUser")]
+    [HttpPost("register")]
     public async Task<IActionResult> RegisterUser([FromBody] RegisterUserRequest request)
     {
         var response = await mediator.Send(request);
@@ -23,7 +23,7 @@ public class AuthenticationController : ApiController
         return Ok(response.Value);
     }
 
-    [HttpPost("loginUser")]
+    [HttpPost("login")]
     public async Task<IActionResult> LoginUser([FromBody] LoginRequest request)
     {
         var response = await mediator.Send(request);

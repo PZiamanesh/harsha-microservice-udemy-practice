@@ -4,16 +4,16 @@ public class Product
 {
     public Guid ProductID { get; private set; }
     public string? ProductName { get; private set; }
-    public CategoryOptions Category { get; private set; }
-    public double UnitPrice { get; private set; }
+    public ProductCategory Category { get; private set; }
+    public decimal UnitPrice { get; private set; }
     public int QuantityInStock { get; private set; }
 
     private Product() { }
 
     public static Product Create(
         string? productName,
-        CategoryOptions category,
-        double unitPrice,
+        ProductCategory category,
+        decimal unitPrice,
         int quantityInStock)
     {
         return new Product
@@ -28,8 +28,8 @@ public class Product
 
     public void Update(
         string? productName,
-        CategoryOptions category,
-        double unitPrice,
+        ProductCategory category,
+        decimal unitPrice,
         int quantityInStock)
     {
         ProductName = productName;

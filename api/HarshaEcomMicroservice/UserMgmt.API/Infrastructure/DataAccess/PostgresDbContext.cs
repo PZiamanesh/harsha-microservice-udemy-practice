@@ -6,6 +6,15 @@ public class PostgresDbContext
 
     public PostgresDbContext(IConfiguration configuration)
     {
-        Connection = new NpgsqlConnection(configuration.GetConnectionString("UserMgmtConnection"));
+        string connectionString = configuration.GetConnectionString("UserMgmtConnection")!;
+
+        connectionString = connectionString
+            .Replace("$POSTGRES_HOST", Environment.GetEnvironmentVariable("POSTGRES_HOST"))
+            .Replace("$POSTGRES_PORT", Environment.GetEnvironmentVariable("POSTGRES_PORT"))
+            .Replace("$POSTGRES_DB", Environment.GetEnvironmentVariable("POSTGRES_DB"))
+            .Replace("$POSTGRES_USER", Environment.GetEnvironmentVariable("POSTGRES_USER"))
+            .Replace("$POSTGRES_PASSWD", Environment.GetEnvironmentVariable("POSTGRES_PASSWD"));
+
+        Connection = new NpgsqlConnection(connectionString);
     }
 }

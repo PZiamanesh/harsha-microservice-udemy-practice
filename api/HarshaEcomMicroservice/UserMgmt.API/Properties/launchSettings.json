@@ -13,7 +13,13 @@
       "commandName": "Project",
       "launchBrowser": false,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "POSTGRES_HOST": "localhost",
+        "POSTGRES_PORT": "5432", // local
+        //"POSTGRES_PORT": "5433", // docker
+        "POSTGRES_DB": "HarshaEcomUserMgmtDB",
+        "POSTGRES_USER": "postgres",
+        "POSTGRES_PASSWD": "Zia@123456"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:49161;http://localhost:49155"

@@ -19,7 +19,7 @@ public class RegisterUserHandler : IRequestHandler<RegisterUserRequest, ErrorOr<
 
         if (existUser != null)
         {
-            return Error.Conflict(code: "User.UserExists", "User with defined parameters does exists");
+            return Error.Conflict(description: $"A user with email: {request.Email} was already registered.");
         }
 
         var user = User.Create(

@@ -1,6 +1,6 @@
 ﻿namespace OrderMgmt.API.Core.DTOs;
 
-public enum CategoryOptions
+public enum ProductCategory
 {
     Undefined,
     Electronics,

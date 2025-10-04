@@ -19,7 +19,7 @@ public class LoginUserHandler : IRequestHandler<LoginRequest, ErrorOr<Authentica
 
         if (user is null)
         {
-            return Error.NotFound("User.NotFound", "User NotFound");
+            return Error.NotFound(description: "User with provided credentials was not found.");
         }
 
         var authRespoonse = _mapper.Map<AuthenticationResponse>(user) with
