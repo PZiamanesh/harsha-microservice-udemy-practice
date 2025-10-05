@@ -1,4 +1,4 @@
-﻿-- Create the database
+﻿-- Create the database if not defined in mysql docker image environment variable
 CREATE DATABASE IF NOT EXISTS HarshaEcomProdMgmtDB;
 USE HarshaEcomProdMgmtDB;
 

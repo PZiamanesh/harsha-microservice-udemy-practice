@@ -9,7 +9,7 @@ services:
     environment:
       MONGO_INITDB_DATABASE: HarshaEcomOrderMgmtDB
     volumes:
-      - ../_db-init/mongo-init-db:/docker-entrypoint-initdb.d:ro
+      - ./_db-init/mongo-init-db:/docker-entrypoint-initdb.d:ro
       - mongo_data:/data/db
     networks:
       - order-mongo-net
@@ -23,7 +23,7 @@ services:
       MYSQL_ROOT_PASSWORD: Zia@123456
       MYSQL_DATABASE: HarshaEcomProdMgmtDB
     volumes:
-      - ../_db-init/mysql-init-db:/docker-entrypoint-initdb.d:ro
+      - ./_db-init/mysql-init-db:/docker-entrypoint-initdb.d:ro
       - mysql_data:/var/lib/mysql
     networks:
       - product-mysql-net
@@ -38,7 +38,7 @@ services:
       POSTGRES_PASSWORD: Zia@123456
       POSTGRES_DB: HarshaEcomUserMgmtDB
     volumes:
-      - ../_db-init/postgres-init-db:/docker-entrypoint-initdb.d:ro
+      - ./_db-init/postgres-init-db:/docker-entrypoint-initdb.d:ro
       - postgres_data:/var/lib/postgresql/data
     networks:
       - user-postgres-net
@@ -59,7 +59,7 @@ services:
       - UserMgmt_Host=usermgmt.api
       - UserMgmt_Port=8080
     ports:
-      - "6000:8080"
+      - "46100:8080"
     networks:
       - order-mongo-net
       - ecom-net
@@ -80,7 +80,7 @@ services:
       - MYSQL_USER=root
       - MYSQL_PASSWD=Zia@123456
     ports:
-      - "7000:8080"
+      - "46101:8080"
     networks:
       - product-mysql-net
       - ecom-net
@@ -101,7 +101,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWD=Zia@123456
     ports:
-      - "8000:8080"
+      - "46102:8080"
     networks:
       - user-postgres-net
       - ecom-net

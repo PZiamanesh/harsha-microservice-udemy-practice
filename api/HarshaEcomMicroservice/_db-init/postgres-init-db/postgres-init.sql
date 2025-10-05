@@ -1,4 +1,4 @@
-﻿CREATE DATABASE HarshaEcomUserMgmtDB;
+﻿--CREATE DATABASE HarshaEcomUserMgmtDB; -- no need for this if it is defined as POSTGRES_DB=HarshaEcomUserMgmtDB in postgres environment
 
 -- Create the table if it does not exist
 CREATE TABLE IF NOT EXISTS public."Users"
