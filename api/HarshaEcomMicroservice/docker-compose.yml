@@ -1,0 +1,124 @@
+version: '3.8'
+
+services:
+  # MongoDB Service
+  mongo_srv:
+    image: mongo:latest
+    container_name: mongo_srv
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: HarshaEcomOrderMgmtDB
+    volumes:
+      - ../_db-init/mongo-init-db:/docker-entrypoint-initdb.d:ro
+      - mongo_data:/data/db
+    networks:
+      - order-mongo-net
+
+  # MySQL Service
+  mysql_srv:
+    image: mysql:latest
+    container_name: mysql_srv
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: Zia@123456
+      MYSQL_DATABASE: HarshaEcomProdMgmtDB
+    volumes:
+      - ../_db-init/mysql-init-db:/docker-entrypoint-initdb.d:ro
+      - mysql_data:/var/lib/mysql
+    networks:
+      - product-mysql-net
+
+  # PostgreSQL Service
+  postgres_srv:
+    image: postgres:latest
+    container_name: postgres_srv
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Zia@123456
+      POSTGRES_DB: HarshaEcomUserMgmtDB
+    volumes:
+      - ../_db-init/postgres-init-db:/docker-entrypoint-initdb.d:ro
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - user-postgres-net
+
+  # Order Management API
+  ordermgmt.api:
+    image: ordermgmt:latest
+    container_name: orderMgmt_cnt
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - MONGODB_HOST=mongo_srv
+      - MONGODB_PORT=27017
+      - MONGODB_DATABASE=HarshaEcomOrderMgmtDB
+      - ProductMgmt_Host=productmgmt.api
+      - ProductMgmt_Port=8080
+      - UserMgmt_Host=usermgmt.api
+      - UserMgmt_Port=8080
+    ports:
+      - "6000:8080"
+    networks:
+      - order-mongo-net
+      - ecom-net
+    depends_on:
+      - mongo_srv
+
+  # Product Management API
+  productmgmt.api:
+    image: productmgmt:latest
+    container_name: productMgmt_cnt
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - MYSQL_HOST=mysql_srv
+      - MYSQL_PORT=3306
+      - MYSQL_DB=HarshaEcomProdMgmtDB
+      - MYSQL_USER=root
+      - MYSQL_PASSWD=Zia@123456
+    ports:
+      - "7000:8080"
+    networks:
+      - product-mysql-net
+      - ecom-net
+    depends_on:
+      - mysql_srv
+
+  # User Management API
+  usermgmt.api:
+    image: usermgmt:latest
+    container_name: userMgmt_cnt
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - POSTGRES_HOST=postgres_srv
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=HarshaEcomUserMgmtDB
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWD=Zia@123456
+    ports:
+      - "8000:8080"
+    networks:
+      - user-postgres-net
+      - ecom-net
+    depends_on:
+      - postgres_srv
+
+networks:
+  order-mongo-net:
+    driver: bridge
+  product-mysql-net:
+    driver: bridge
+  user-postgres-net:
+    driver: bridge
+  ecom-net:
+    driver: bridge
+
+volumes:
+  mongo_data:
+  mysql_data:
+  postgres_data:
