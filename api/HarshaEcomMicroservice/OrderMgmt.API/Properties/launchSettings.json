@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "MONGODB_HOST": "localhost",
         "MONGODB_PORT": "27017", // local
-        //"MONGODB_PORT": "27018", // docker
+        //"MONGODB_PORT": "27018", // docker - for single docker run purpose
         "MONGODB_DATABASE": "HarshaEcomOrderMgmtDB",
         "ProductMgmt_Host": "localhost",
         "ProductMgmt_Port": "49156",
