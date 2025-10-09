@@ -15,6 +15,7 @@ builder.Services.AddCoreLayerServices(configuration);
 builder.Services.AddRepositories(configuration);
 builder.Services.AddInfrastructureLayerServices(configuration);
 builder.Services.AddHttpClientServices(configuration);
+builder.Services.AddBackgroundServices(configuration);
 
 builder.Services.AddCors(ops =>
 {

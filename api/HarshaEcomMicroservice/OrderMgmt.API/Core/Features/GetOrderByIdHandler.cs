@@ -1,5 +1,4 @@
-﻿
-using OrderMgmt.API.Infrastructure.HttpClientServices;
+﻿using OrderMgmt.API.Infrastructure.HttpClientServices;
 
 namespace OrderMgmt.API.Core.Features;
 

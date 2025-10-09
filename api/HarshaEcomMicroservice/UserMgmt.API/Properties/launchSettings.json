@@ -15,9 +15,10 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         //"ASPNETCORE_ENVIRONMENT": "Production",
+
         "POSTGRES_HOST": "localhost",
         "POSTGRES_PORT": "5432", // local
-        //"POSTGRES_PORT": "5433", // docker - for single docker run purpose
+        //"POSTGRES_PORT": "55432", // docker
         "POSTGRES_DB": "HarshaEcomUserMgmtDB",
         "POSTGRES_USER": "postgres",
         "POSTGRES_PASSWD": "Zia@123456"

@@ -1,4 +1,6 @@
-﻿using OrderMgmt.API.Infrastructure.HttpClientServices;
+﻿using OrderMgmt.API.Infrastructure.BackgroundServices;
+using OrderMgmt.API.Infrastructure.HttpClientServices;
+using OrderMgmt.API.Infrastructure.MessageBroker;
 
 namespace OrderMgmt.API;
 
@@ -40,7 +42,19 @@ public static class ProgramDependencyInjection
             ops.AddOpenBehavior(typeof(ValidationPipeline<,>));
         });
 
-        AddMongoDbService(services, configuration);
+        AddMongoDb(services, configuration);
+
+        services.AddStackExchangeRedisCache(options =>
+        {
+            string redisConnection = configuration.GetConnectionString("Redis")!;
+            redisConnection = redisConnection
+                .Replace("$REDIS_HOST", Environment.GetEnvironmentVariable("REDIS_HOST"))
+                .Replace("$REDIS_PORT", Environment.GetEnvironmentVariable("REDIS_PORT"));
+
+            options.Configuration = redisConnection;
+        });
+
+        services.AddSingleton<IRabbitMqConsumer, RabbitMqConsumer>();
 
         return services;
     }
@@ -54,9 +68,21 @@ public static class ProgramDependencyInjection
             Converters = { new JsonStringEnumConverter() }
         });
 
+        services.AddSingleton<ResilienceService>();
+
         services.AddHttpClient<ProductClientService>(ops =>
         {
             ops.BaseAddress = new Uri($"http://{configuration["ProductMgmt_Host"]}:{configuration["ProductMgmt_Port"]}/api/products/");
+        })
+        .AddPolicyHandler((sp, request) =>
+        {
+            var resilienceService = sp.GetRequiredService<ResilienceService>();
+            return resilienceService.GetCircuitBreakerPolicy();
+        })
+        .AddPolicyHandler((sp, request) =>
+        {
+            var resilienceService = sp.GetRequiredService<ResilienceService>();
+            return resilienceService.GetRetryPolicy();
         });
 
         services.AddHttpClient<UserClientService>(ops =>
@@ -67,7 +93,16 @@ public static class ProgramDependencyInjection
         return services;
     }
 
-    private static void AddMongoDbService(
+    public static IServiceCollection AddBackgroundServices(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        services.AddHostedService<ProductUpdateMesageHostedService>();
+
+        return services;
+    }
+
+    private static void AddMongoDb(
         IServiceCollection services,
         IConfiguration configuration)
     {

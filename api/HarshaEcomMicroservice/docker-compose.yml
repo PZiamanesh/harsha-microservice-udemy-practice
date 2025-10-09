@@ -6,6 +6,8 @@ services:
     image: mongo:latest
     container_name: mongo_srv
     restart: unless-stopped
+    ports:
+     - "57017:27017"
     environment:
       MONGO_INITDB_DATABASE: HarshaEcomOrderMgmtDB
     volumes:
@@ -19,6 +21,8 @@ services:
     image: mysql:latest
     container_name: mysql_srv
     restart: unless-stopped
+    ports:
+      - "53306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: Zia@123456
       MYSQL_DATABASE: HarshaEcomProdMgmtDB
@@ -33,6 +37,8 @@ services:
     image: postgres:latest
     container_name: postgres_srv
     restart: unless-stopped
+    ports:
+      - "55432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Zia@123456
@@ -43,13 +49,44 @@ services:
     networks:
       - user-postgres-net
 
+  # Redis Cache 
+  redis_srv:
+    image: redis:latest
+    container_name: redis_cnt
+    ports:
+      - "56379:6379"
+    volumes:
+      - ./_redis:/data
+    # command: redis-server --appendonly yes
+    networks:
+      - ecom-net
+    restart: unless-stopped
+  
+  # RabbitMQ
+  rabbitmq_srv:
+    image: rabbitmq:3-management
+    container_name: rabbitmq_cnt
+    ports:
+      - "55672:5672"    # AMQP protocol port
+      - "55673:15672"  # Management UI port
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - ecom-net
+
   # Order Management API
   ordermgmt.api:
     image: ordermgmt:latest
+    build:
+      context: .
+      dockerfile: OrderMgmt.API/Dockerfile
     container_name: orderMgmt_cnt
     restart: unless-stopped
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_HTTP_PORTS=8080
       - MONGODB_HOST=mongo_srv
       - MONGODB_PORT=27017
@@ -58,6 +95,8 @@ services:
       - ProductMgmt_Port=8080
       - UserMgmt_Host=usermgmt.api
       - UserMgmt_Port=8080
+      - REDIS_HOST=redis_srv
+      - REDIS_PORT=6379
     ports:
       - "46100:8080"
     networks:
@@ -69,16 +108,24 @@ services:
   # Product Management API
   productmgmt.api:
     image: productmgmt:latest
+    build:
+      context: .
+      dockerfile: ProductMgmt.API/Dockerfile
     container_name: productMgmt_cnt
     restart: unless-stopped
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_HTTP_PORTS=8080
       - MYSQL_HOST=mysql_srv
       - MYSQL_PORT=3306
       - MYSQL_DB=HarshaEcomProdMgmtDB
       - MYSQL_USER=root
       - MYSQL_PASSWD=Zia@123456
+      - RabbitMQ_HostName=rabbitmq_srv
+      - RabbitMQ_Port=5672
+      - RabbitMQ_UserName=guest
+      - RabbitMQ_Password=guest
+      - RabbitMQ_ExchangeName=direct_exchange
     ports:
       - "46101:8080"
     networks:
@@ -90,10 +137,13 @@ services:
   # User Management API
   usermgmt.api:
     image: usermgmt:latest
+    build:
+      context: .
+      dockerfile: UserMgmt.API/Dockerfile
     container_name: userMgmt_cnt
     restart: unless-stopped
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_HTTP_PORTS=8080
       - POSTGRES_HOST=postgres_srv
       - POSTGRES_PORT=5432
@@ -122,3 +172,4 @@ volumes:
   mongo_data:
   mysql_data:
   postgres_data:
+  rabbitmq_data:  

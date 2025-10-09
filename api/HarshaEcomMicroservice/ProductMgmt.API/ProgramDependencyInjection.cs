@@ -52,6 +52,8 @@ public static class ProgramDependencyInjection
             ops.UseMySQL(connectionString);
         });
 
+        services.AddSingleton<IRabbitMqProducer, RabbitMqProducer>();
+
         return services;
     }
 }

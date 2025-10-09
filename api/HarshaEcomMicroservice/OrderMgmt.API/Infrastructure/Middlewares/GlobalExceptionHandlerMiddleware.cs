@@ -1,4 +1,8 @@
-﻿namespace OrderMgmt.API.Infrastructure.Middlewares;
+﻿using Polly.CircuitBreaker;
+using Polly.Timeout;
+using Polly.Bulkhead;
+
+namespace OrderMgmt.API.Infrastructure.Middlewares;
 
 public class GlobalExceptionHandlerMiddleware
 {
@@ -30,6 +34,21 @@ public class GlobalExceptionHandlerMiddleware
     {
         var (statusCode, title, detail) = exception switch
         {
+            // Polly Circuit Breaker exceptions
+            BrokenCircuitException => (StatusCodes.Status503ServiceUnavailable,
+                "Service Unavailable",
+                "The service is temporarily unavailable due to too many failures. Please try again later."),
+
+            // Polly Timeout exceptions
+            TimeoutRejectedException => (StatusCodes.Status504GatewayTimeout,
+                "Gateway Timeout",
+                "The operation was cancelled because it exceeded the configured timeout."),
+
+            // Polly Bulkhead exceptions (if you add bulkhead pattern later)
+            BulkheadRejectedException => (StatusCodes.Status503ServiceUnavailable,
+                "Service Unavailable",
+                "Too many concurrent requests. Please try again shortly."),
+
             // HTTP & Network errors
             HttpRequestException => (StatusCodes.Status502BadGateway,
                 "Bad Gateway",
@@ -98,7 +117,6 @@ public class GlobalExceptionHandlerMiddleware
         await context.Response.WriteAsJsonAsync(problemDetails);
     }
 }
-
 
 public static class GlobalExceptionHandlerMiddlewareExtensions
 {

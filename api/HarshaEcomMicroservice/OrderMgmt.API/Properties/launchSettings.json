@@ -15,14 +15,26 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         //"ASPNETCORE_ENVIRONMENT": "Production",
+
         "MONGODB_HOST": "localhost",
         "MONGODB_PORT": "27017", // local
-        //"MONGODB_PORT": "27018", // docker - for single docker run purpose
+        //"MONGODB_PORT": "57017", // docker
         "MONGODB_DATABASE": "HarshaEcomOrderMgmtDB",
+
         "ProductMgmt_Host": "localhost",
         "ProductMgmt_Port": "49156",
         "UserMgmt_Host": "localhost",
-        "UserMgmt_Port": "49155"
+        "UserMgmt_Port": "49155",
+
+        "REDIS_HOST": "localhost",
+        //"REDIS_PORT": "6379", // local
+        "REDIS_PORT": "56379", // docker
+
+        "RabbitMQ_HostName": "localhost",
+        "RabbitMQ_Port": "55672", // docker
+        "RabbitMQ_UserName": "guest",
+        "RabbitMQ_Password": "guest",
+        "RabbitMQ_ExchangeName": "product_exchange"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:49163;http://localhost:49157"

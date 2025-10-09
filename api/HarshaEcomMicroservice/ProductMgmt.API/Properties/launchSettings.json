@@ -15,12 +15,19 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         //"ASPNETCORE_ENVIRONMENT": "Production",
+
         "MYSQL_HOST": "localhost",
         "MYSQL_PORT": "3306", // local
-        //"MYSQL_PORT": "3307", // docker - for single docker run purpose
+        //"MYSQL_PORT": "53306", // docker
         "MYSQL_DB": "HarshaEcomProdMgmtDB",
         "MYSQL_USER": "root",
-        "MYSQL_PASSWD": "Zia@123456"
+        "MYSQL_PASSWD": "Zia@123456",
+
+        "RabbitMQ_HostName": "localhost",
+        "RabbitMQ_Port": "55672", // docker
+        "RabbitMQ_UserName": "guest",
+        "RabbitMQ_Password": "guest",
+        "RabbitMQ_ExchangeName": "product_exchange"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:49162;http://localhost:49156"
