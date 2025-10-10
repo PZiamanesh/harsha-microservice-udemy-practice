@@ -5,6 +5,7 @@ public class RabbitMqConsumer : IDisposable, IRabbitMqConsumer
     private readonly IConnection _connection;
     private readonly IConfiguration _config;
     private readonly ILogger<RabbitMqConsumer> _logger;
+    private IChannel? _channel;
 
     public RabbitMqConsumer(
         IConfiguration config,
@@ -29,13 +30,13 @@ public class RabbitMqConsumer : IDisposable, IRabbitMqConsumer
         string routingKey,
         Func<T, Task> onMessageReceived)
     {
-        // create channel
-        var channel = await _connection.CreateChannelAsync();
+        // create _channel
+        _channel ??= await _connection.CreateChannelAsync();
 
         // declare exchange
         string exchangeName = _config["RabbitMQ_ExchangeName"]!;
 
-        await channel.ExchangeDeclareAsync(
+        await _channel.ExchangeDeclareAsync(
             exchange: exchangeName,
             type: ExchangeType.Direct,
             durable: true,
@@ -43,7 +44,7 @@ public class RabbitMqConsumer : IDisposable, IRabbitMqConsumer
         );
 
         // declare queue
-        await channel.QueueDeclareAsync(
+        await _channel.QueueDeclareAsync(
             queue: queueName,
             durable: true,
             exclusive: false,
@@ -51,21 +52,21 @@ public class RabbitMqConsumer : IDisposable, IRabbitMqConsumer
         );
 
         // bind queue to exchange
-        await channel.QueueBindAsync(
+        await _channel.QueueBindAsync(
             queue: queueName,
             exchange: exchangeName,
             routingKey: routingKey
         );
 
         // set prefetch count (how many messages to fetch at once)
-        await channel.BasicQosAsync(
+        await _channel.BasicQosAsync(
             prefetchSize: 0,
             prefetchCount: 1,
             global: false
         );
 
         // handel consumer received event
-        var consumer = new AsyncEventingBasicConsumer(channel);
+        var consumer = new AsyncEventingBasicConsumer(_channel);
 
         consumer.ReceivedAsync += async (sender, eventArgs) =>
         {
@@ -81,7 +82,7 @@ public class RabbitMqConsumer : IDisposable, IRabbitMqConsumer
                 }
 
                 // acknowledge the message
-                await channel.BasicAckAsync(
+                await _channel.BasicAckAsync(
                     deliveryTag: eventArgs.DeliveryTag,
                     multiple: false
                 );
@@ -91,7 +92,7 @@ public class RabbitMqConsumer : IDisposable, IRabbitMqConsumer
                 _logger.LogError(ex, "Error processing message: {ErrorMessage}", ex.Message);
 
                 // Reject and requeue the message
-                await channel.BasicNackAsync(
+                await _channel.BasicNackAsync(
                     deliveryTag: eventArgs.DeliveryTag,
                     multiple: false,
                     requeue: true
@@ -100,7 +101,7 @@ public class RabbitMqConsumer : IDisposable, IRabbitMqConsumer
         };
 
         // start consuming
-        await channel.BasicConsumeAsync(
+        await _channel.BasicConsumeAsync(
             queue: queueName,
             autoAck: false,
             consumer: consumer
